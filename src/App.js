@@ -16,6 +16,12 @@ function App() {
   const [turns, setTurns] = useState(0);
   const [firstCard, setFirstCard] = useState(null);
   const [secondCard, setSecondCard] = useState(null);
+  const [disabled, setDisabled] = useState(false);
+
+  // start the game automatically
+  useEffect(() => {
+    shuffleCards();
+  }, [])
 
   // shuffle cards
   const shuffleCards = () => {
@@ -23,6 +29,8 @@ function App() {
       .sort(() => Math.random() - 0.5)
       .map((item, id) => ({...item, id }));
 
+    setFirstCard(null);
+    setSecondCard(null);
     setCards(shuffledCards);
     setTurns(0);
   }
@@ -36,6 +44,7 @@ function App() {
 
   useEffect(() => {
     if (firstCard && secondCard) {
+      setDisabled(true);
       if (firstCard.src === secondCard.src) {
         setCards(prevCards => {
           return prevCards.map(card => {
@@ -46,8 +55,7 @@ function App() {
           });
         });
       }
-      console.log('no')
-      resetTurn();
+      setTimeout(() => resetTurn(), 1000);
     }
   }, [firstCard, secondCard]);
 
@@ -55,9 +63,8 @@ function App() {
     setFirstCard(null);
     setSecondCard(null);
     setTurns(prevTurn => prevTurn + 1);
+    setDisabled(false);
   }
-
-  console.log(firstCard, secondCard)
 
   return (
     <div className="App">
@@ -70,10 +77,12 @@ function App() {
             key={card.id}
             card={card}
             handleChoice={handleChoice}
+            flipped={card === firstCard || card === secondCard || card.matched}
+            disabled={disabled}
           />
         ))}
       </div>
-      <div className="turns">turn: {turns}</div>
+      <div className="turns">Turns: {turns}</div>
     </div>
   );
 }

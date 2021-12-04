@@ -1,11 +1,34 @@
 @import "../index.scss";
 
 .card {
-    position: relative;
-}
-.card img {
+  position: relative;
+
+  .front {
+      transform: rotateY(90deg);
+      position: absolute;
+      transition: all ease-in 0.2s;
+  }
+
+  .cover {
+      transition: all ease-in 0.2s;
+      transition-delay: 0.2s;
+  }
+
+  img {
     width: 100%;
     display: block;
     border: 2px solid $card-border-color;
     border-radius: 6px;
+  }
+}
+
+.flipped {
+    .front {
+        transform: rotateY(0deg);
+        transition-delay: 0.2s;
+    }
+    .cover {
+        transform: rotateY(90deg);
+        transition-delay: 0s;
+    }
 }
