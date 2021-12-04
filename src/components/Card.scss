@@ -1,0 +1,11 @@
+@import "../index.scss";
+
+.card {
+    position: relative;
+}
+.card img {
+    width: 100%;
+    display: block;
+    border: 2px solid $card-border-color;
+    border-radius: 6px;
+}
